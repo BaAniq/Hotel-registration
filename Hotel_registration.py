@@ -6,6 +6,8 @@ guest5 = ['117', 'Henryk', 'Sienkiewicz', '18', 'man']
 
 list_guest = [guest1, guest2, guest3, guest4, guest5]
 
+options = (1, 2, 3, 4)
+
 
 def menu():
     choice = int(input('What do you want to do?:\
@@ -60,17 +62,26 @@ def edition():
 
 
 z = 1
-
+options_to_continue = (0, 1)
 while z == 1:
     user_choice = menu()
-    if user_choice == 1:
-        print_guest_list()
-    elif user_choice == 2:
-        check_in()
-    elif user_choice == 3:
-        check_out()
-    elif user_choice == 4:
-        edition()
+    if user_choice in options:
+        if user_choice == 1:
+            print_guest_list()
+        elif user_choice == 2:
+            check_in()
+        elif user_choice == 3:
+            check_out()
+        elif user_choice == 4:
+            edition()
+    else:
+        print('Wrong choice. Try again')
+        continue
     z = int(input('Do you want to continue:    \
             \n 1 - Yes\
-            \n 2 - No \n '))
+            \n 0 - No \n '))
+    if z not in options_to_continue:
+        print('Wrong choice. Try again')
+        z = int(input('Do you want to continue:    \
+                 \n 1 - Yes\
+                 \n 0 - No \n '))
