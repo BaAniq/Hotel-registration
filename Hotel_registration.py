@@ -1,3 +1,12 @@
+guest1 = ['217', 'Orlando', 'Bloom', '25', 'man']
+guest2 = ['217', 'Katy', 'Perry', '25', 'woman']
+guest3 = ['218', 'Angelina', 'Jolie', '51', 'woman']
+guest4 = ['218', 'Brad', 'Pitt', '46', 'man']
+guest5 = ['117', 'Henryk', 'Sienkiewicz', '18', 'man']
+
+list_guest = [guest1, guest2, guest3, guest4, guest5]
+
+
 def menu():
     choice = int(input('What do you want to do?:\
                 \n  1 - show the Guest List\
@@ -8,26 +17,22 @@ def menu():
 
 
 def print_guest_list():
-    with open('Guest List', 'a+', encoding="UTF-8") as Guest_List:
-        Guest_List.seek(0)
-        print(Guest_List.read())
+    l = 1
+    for guest in list_guest:
+        print(l, guest)
+        l += 1
 
 
 def check_in():
-    with open('Guest List', 'a+', encoding="UTF-8") as Guest_List:
-        name = (input('Name:   '))+' '
-        name = name.capitalize()
-        Guest_List.write(name)
-
-        surname = input('Surname:   ')+' '
-        surname = surname.capitalize()
-        Guest_List.write(surname)
-
-        age = input('Age:   ')+' '
-        Guest_List.write(age)
-
-        room = input('Room: ')+'\n'
-        Guest_List.write(room)
+    name = input('Name:   ')
+    name = name.capitalize()
+    surname = input('Surname:   ')
+    surname = surname.capitalize()
+    age = int(input('Age:   '))
+    sex = input('Sex:   ')
+    room = int(input('Room: '))
+    guest = [room, name, surname, age, sex]
+    list_guest.append(guest)
 
 
 def check_out():
