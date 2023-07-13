@@ -1,12 +1,37 @@
 from prettytable import PrettyTable
 table = PrettyTable()
+table_rooms = PrettyTable()
 
 
 with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
     Guest_List_file.seek(0)
 
 
-options = (1, 2, 3, 4)
+options = (1, 2, 3, 4, 5)
+rooms = {
+        '1 F': {
+            '1 bed': {
+                '111': 'available',
+                '112': 'available'
+                    },
+            '2 bed': {
+                '121': 'available',
+                '122': 'available'
+                    },
+                },
+        '2 F': {
+            '1 bed': {
+                '211': 'available',
+                '212': 'available'
+                    },
+            '2 bed': {
+                '221': 'available',
+                '222': 'available'
+                    },
+
+                },
+        }
+
 
 
 def menu():
@@ -14,7 +39,8 @@ def menu():
                 \n  1 - show the Guest List\
                 \n  2 - check in guest \
                 \n  3 - check out guest \
-                \n  4 - edit data \n'))
+                \n  4 - edit data \
+                \n  5 - show room status \n'))
     return choice
 
 
@@ -83,6 +109,21 @@ def updated_guest_list_to_file(guest_list_from_file):
             Guest_List_file.write(guest)
             Guest_List_file.write('\n')
 
+def show_room_status():
+    table_rooms.field_names = ['Num', 'Beds', 'Floor', 'Room', 'Status']
+    table_rooms.clear_rows()
+    num = 1
+
+    for floor in rooms:
+        for bed in rooms[floor]:
+            for num_room in rooms[floor][bed]:
+                status = rooms[floor][bed][num_room]
+                table_rooms.add_row([num, bed, floor, num_room, status])
+                num += 1
+    print(table_rooms)
+
+
+
 
 z = 1
 options_to_continue = (0, 1)
@@ -97,6 +138,8 @@ while z == 1:
             check_out()
         elif user_choice == 4:
             edition()
+        elif user_choice == 5:
+            show_room_status()
     else:
         print('Wrong choice. Please try again.')
         continue
@@ -104,8 +147,8 @@ while z == 1:
             \n 1 - Yes\
             \n 0 - No \n '))
     if z not in options_to_continue:
-        print('Wrong choice. Try again')
-        z = int(input('Do you want to continue:    \
-                \n 1 - Yes\
-                \n 0 - No \n '))
-        
+        while z not in options_to_continue:
+            print('Wrong choice. Try again')
+            z = int(input('Do you want to continue:    \
+                     \n 1 - Yes\
+                     \n 0 - No \n '))
