@@ -25,16 +25,12 @@ def print_guests():
 
 def check_in():
     with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
-        name = input('Name:   ')+' '
-        name = name.capitalize()
-        Guest_List_file.write(name)
-
-        last_name = input('Last name:   ')+' '
-        last_name = last_name.capitalize()
-        Guest_List_file.write(last_name)
-
-        room = (input('Room: '))+'\n'
-        Guest_List_file.write(room)
+        name = (input('Name:   ')+' ').capitalize()
+        last_name = (input('Last name:   ')+' ').capitalize()
+        room = (input('Room: '))+ '\n'
+        new_guest = [name, last_name, room]
+        for data in new_guest:
+            Guest_List_file.write(data)
 
 
 def check_out():
