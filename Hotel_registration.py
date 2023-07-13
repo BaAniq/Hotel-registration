@@ -1,12 +1,10 @@
-guest1 = ['217', 'Orlando', 'Bloom', '25', 'man']
-guest2 = ['217', 'Katy', 'Perry', '25', 'woman']
-guest3 = ['218', 'Angelina', 'Jolie', '51', 'woman']
-guest4 = ['218', 'Brad', 'Pitt', '46', 'man']
-guest5 = ['117', 'Henryk', 'Sienkiewicz', '18', 'man']
-guest6 = ['117', 'Henryk', 'Sienkiewicz', '18', 'man']
-list_guest = [guest1, guest2, guest3, guest4, guest5, guest6]
+with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
+    Guest_List_file.seek(0)
+
 
 options = (1, 2, 3, 4)
+
+
 def menu():
     choice = int(input('What do you want to do?:\
                 \n  1 - show the Guest List\
@@ -16,47 +14,72 @@ def menu():
     return choice
 
 
-def print_guest_list():
-    l = 1
-    for guest in list_guest:
-        print(l, guest)
-        l += 1
+def print_guests():
+    with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
+        Guest_List_file.seek(0)
+        l = 1
+        for guest in Guest_List_file:
+            print(l, '. ', guest)
+            l += 1
 
 
 def check_in():
-    name = input('Name:   ')
-    name = name.capitalize()
-    surname = input('Surname:   ')
-    surname = surname.capitalize()
-    age = int(input('Age:   '))
-    sex = input('Sex:   ')
-    room = int(input('Room: '))
-    guest = [room, name, surname, age, sex]
-    list_guest.append(guest)
+    with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
+        name = input('Name:   ')+' '
+        name = name.capitalize()
+        Guest_List_file.write(name)
+
+        last_name = input('Last name:   ')+' '
+        last_name = last_name.capitalize()
+        Guest_List_file.write(last_name)
+
+        room = (input('Room: '))+'\n'
+        Guest_List_file.write(room)
 
 
 def check_out():
-    x = 0
-    for i in range(1, len(list_guest) + 1):
-        print(f'{i}.', list_guest[x])
-        x += 1
-    guest_del = int(input('Which guest would you like to check out?:  ')) - 1
-    list_guest.pop(guest_del)
+    guest_list_from_file = convert_file_to_list()
+    print_guests()
+    guest_to_check_out = int(input('Which guest would you like to check out?: ')) - 1
+    guest_list_from_file.pop(guest_to_check_out)
+    updated_guest_list_to_file(guest_list_from_file)
 
 
 def edition():
-    print_guest_list()
-    guest_to_edit = int(input('Which guest data would you like to edit?: '))-1
-    edition_guest = [list_guest[guest_to_edit]]
-    for room, name, surname, age, sex in edition_guest:
-        print('1. Room: ', room)
-        print('2. Name: ', name)
-        print('3. Surname: ', surname)
-        print('4. Age: ', age)
-        print('5. Sex: ', sex)
-    data_to_edit = int(input('Which data would you like to edit?: '))-1
+    guest_list_from_file = convert_file_to_list()
+    print_guests()
+    guest_to_edit = int(input('Which guest data would you like to edit?: ')) - 1
+    l = 1
+    for data in guest_list_from_file[guest_to_edit]:
+        print(l, '. ', data)
+        l += 1
+    data_to_edit = int(input('Which data would you like to edit?: ')) - 1
     new_data = input('New value: ')
-    list_guest[guest_to_edit][data_to_edit] = new_data
+    guest_list_from_file[guest_to_edit][data_to_edit] = new_data
+    print(guest_list_from_file[guest_to_edit])
+    updated_guest_list_to_file(guest_list_from_file)
+    print_guests()
+
+
+def convert_file_to_list():
+    with open('Guest List', 'a+', encoding='UTF-8') as Guest_List_file:
+        Guest_List_file.seek(0)
+        guest_list_from_file = []
+        for guest in Guest_List_file:
+            guest_list_from_file.append(guest)
+    for guest in guest_list_from_file:
+        index = guest_list_from_file.index(guest)
+        guest = guest.split()
+        guest_list_from_file[index] = guest
+    return guest_list_from_file
+
+
+def updated_guest_list_to_file(guest_list_from_file):
+    with open('Guest List', 'w+', encoding='UTF-8') as Guest_List_file:
+        for guest in guest_list_from_file:
+            guest = ' '.join(guest)
+            Guest_List_file.write(guest)
+            Guest_List_file.write('\n')
 
 
 z = 1
@@ -64,9 +87,8 @@ options_to_continue = (0, 1)
 while z == 1:
     user_choice = menu()
     if user_choice in options:
-        
         if user_choice == 1:
-            print_guest_list()
+            print_guests()
         elif user_choice == 2:
             check_in()
         elif user_choice == 3:
@@ -80,8 +102,7 @@ while z == 1:
             \n 1 - Yes\
             \n 0 - No \n '))
     if z not in options_to_continue:
-        while z not in options_to_continue:
-            print('Wrong choice. Try again')
-            z = int(input('Do you want to continue:    \
-                    \n 1 - Yes\
-                    \n 0 - No \n '))
+        print('Wrong choice. Try again')
+        z = int(input('Do you want to continue:    \
+                \n 1 - Yes\
+                \n 0 - No \n '))
