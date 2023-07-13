@@ -3,12 +3,10 @@ guest2 = ['217', 'Katy', 'Perry', '25', 'woman']
 guest3 = ['218', 'Angelina', 'Jolie', '51', 'woman']
 guest4 = ['218', 'Brad', 'Pitt', '46', 'man']
 guest5 = ['117', 'Henryk', 'Sienkiewicz', '18', 'man']
-
-list_guest = [guest1, guest2, guest3, guest4, guest5]
+guest6 = ['117', 'Henryk', 'Sienkiewicz', '18', 'man']
+list_guest = [guest1, guest2, guest3, guest4, guest5, guest6]
 
 options = (1, 2, 3, 4)
-
-
 def menu():
     choice = int(input('What do you want to do?:\
                 \n  1 - show the Guest List\
@@ -48,17 +46,17 @@ def check_out():
 
 def edition():
     print_guest_list()
-    guest_to_edit_index = int(input('Which guest data would you like to edit?: '))-1
-    guest_to_edit = [list_guest[guest_to_edit_index]]
-    for room, name, surname, age, sex in guest_to_edit:
+    guest_to_edit = int(input('Which guest data would you like to edit?: '))-1
+    edition_guest = [list_guest[guest_to_edit]]
+    for room, name, surname, age, sex in edition_guest:
         print('1. Room: ', room)
         print('2. Name: ', name)
         print('3. Surname: ', surname)
         print('4. Age: ', age)
         print('5. Sex: ', sex)
     data_to_edit = int(input('Which data would you like to edit?: '))-1
-    new_value = input('New value: ')
-    list_guest[guest_to_edit_index][data_to_edit] = new_value
+    new_data = input('New value: ')
+    list_guest[guest_to_edit][data_to_edit] = new_data
 
 
 z = 1
@@ -66,6 +64,7 @@ options_to_continue = (0, 1)
 while z == 1:
     user_choice = menu()
     if user_choice in options:
+        
         if user_choice == 1:
             print_guest_list()
         elif user_choice == 2:
@@ -75,13 +74,14 @@ while z == 1:
         elif user_choice == 4:
             edition()
     else:
-        print('Wrong choice. Try again')
+        print('Wrong choice. Please try again.')
         continue
     z = int(input('Do you want to continue:    \
             \n 1 - Yes\
             \n 0 - No \n '))
     if z not in options_to_continue:
-        print('Wrong choice. Try again')
-        z = int(input('Do you want to continue:    \
-                 \n 1 - Yes\
-                 \n 0 - No \n '))
+        while z not in options_to_continue:
+            print('Wrong choice. Try again')
+            z = int(input('Do you want to continue:    \
+                    \n 1 - Yes\
+                    \n 0 - No \n '))
