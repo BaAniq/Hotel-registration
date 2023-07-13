@@ -1,3 +1,7 @@
+from prettytable import PrettyTable
+table = PrettyTable()
+
+
 with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
     Guest_List_file.seek(0)
 
@@ -15,19 +19,21 @@ def menu():
 
 
 def print_guests():
-    with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
-        Guest_List_file.seek(0)
-        l = 1
-        for guest in Guest_List_file:
-            print(l, '. ', guest)
-            l += 1
+    table.field_names = ['Num', 'Name', 'Last name', 'Room']
+    table.clear_rows()
+    list_from_file = convert_file_to_list()
+    num = 1
+    for name, last_name, room in list_from_file:
+        table.add_row([num, name, last_name, room])
+        num += 1
+    print(table)
 
 
 def check_in():
     with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
         name = (input('Name:   ')+' ').capitalize()
         last_name = (input('Last name:   ')+' ').capitalize()
-        room = (input('Room: '))+ '\n'
+        room = (input('Room: ')) + '\n'
         new_guest = [name, last_name, room]
         for data in new_guest:
             Guest_List_file.write(data)
@@ -45,10 +51,10 @@ def edition():
     guest_list_from_file = convert_file_to_list()
     print_guests()
     guest_to_edit = int(input('Which guest data would you like to edit?: ')) - 1
-    l = 1
+    num = 1
     for data in guest_list_from_file[guest_to_edit]:
-        print(l, '. ', data)
-        l += 1
+        print(num, '. ', data)
+        num += 1
     data_to_edit = int(input('Which data would you like to edit?: ')) - 1
     new_data = input('New value: ')
     guest_list_from_file[guest_to_edit][data_to_edit] = new_data
@@ -102,3 +108,4 @@ while z == 1:
         z = int(input('Do you want to continue:    \
                 \n 1 - Yes\
                 \n 0 - No \n '))
+        
