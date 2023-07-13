@@ -8,30 +8,30 @@ with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
 
 
 options = (1, 2, 3, 4, 5)
-rooms = {
+rooms = ('111', '112', '121', '122', '211', '212', '221', '222')
+rooms_status = {
         '1 F': {
             '1 bed': {
                 '111': 'available',
-                '112': 'available'
+                '112': 'available',
                     },
             '2 bed': {
                 '121': 'available',
-                '122': 'available'
+                '122': 'available',
                     },
                 },
         '2 F': {
             '1 bed': {
                 '211': 'available',
-                '212': 'available'
+                '212': 'available',
                     },
             '2 bed': {
                 '221': 'available',
-                '222': 'available'
+                '222': 'available',
                     },
 
                 },
         }
-
 
 
 def menu():
@@ -59,7 +59,12 @@ def check_in():
     with open('Guest List', 'a+', encoding="UTF-8") as Guest_List_file:
         name = (input('Name:   ')+' ').capitalize()
         last_name = (input('Last name:   ')+' ').capitalize()
-        room = (input('Room: ')) + '\n'
+        room = (input('Room: '))
+        if room not in rooms:
+            while room not in rooms:
+                print(f'No such room as {room} Try again')
+                room = (input('Room: '))
+        room = room + '\n'
         new_guest = [name, last_name, room]
         for data in new_guest:
             Guest_List_file.write(data)
@@ -84,7 +89,6 @@ def edition():
     data_to_edit = int(input('Which data would you like to edit?: ')) - 1
     new_data = input('New value: ')
     guest_list_from_file[guest_to_edit][data_to_edit] = new_data
-    print(guest_list_from_file[guest_to_edit])
     updated_guest_list_to_file(guest_list_from_file)
     print_guests()
 
@@ -114,15 +118,13 @@ def show_room_status():
     table_rooms.clear_rows()
     num = 1
 
-    for floor in rooms:
-        for bed in rooms[floor]:
-            for num_room in rooms[floor][bed]:
-                status = rooms[floor][bed][num_room]
+    for floor in rooms_status:
+        for bed in rooms_status[floor]:
+            for num_room in rooms_status[floor][bed]:
+                status = rooms_status[floor][bed][num_room]
                 table_rooms.add_row([num, bed, floor, num_room, status])
                 num += 1
     print(table_rooms)
-
-
 
 
 z = 1
@@ -150,5 +152,5 @@ while z == 1:
         while z not in options_to_continue:
             print('Wrong choice. Try again')
             z = int(input('Do you want to continue:    \
-                     \n 1 - Yes\
-                     \n 0 - No \n '))
+                    \n 1 - Yes\
+                    \n 0 - No \n '))
